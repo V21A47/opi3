@@ -41,7 +41,7 @@
         <!-- Creates jar file which has all project's files except tests -->
         <jar destfile="${projectName}.jar" manifest="${build}/MANIFEST.MF">
             <fileset dir="${build}">
-                <include name="*.class"/>
+                <include name="**/*.class"/>
             </fileset>
         </jar>
     </target>
