@@ -2,9 +2,15 @@
 
     <property file="ant.properties"/>
 
+    <target name="version">
+        <echo message="Using Java version ${ant.java.version}."/>
+        <echo>Java/JVM version: ${ant.java.version}</echo>
+        <echo>Java/JVM detail version: ${java.version}</echo>
+    </target>
+
     <target name="compile">
         <mkdir dir="${build}"/>
-        <javac destdir= "${build}" includeantruntime="false">
+        <javac destdir= "${build}" includeAntRuntime="no" includeantruntime="true" deprecation="true" target="1.8" source="1.8">
                 <src path="${src}" />
         </javac>
     </target>
@@ -31,5 +37,4 @@
     <target name="test" depends="build">
 
     </target>
-
 </project>
