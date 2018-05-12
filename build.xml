@@ -2,30 +2,43 @@
 
     <property file="ant.properties"/>
 
+
+    <!--  Jar files to be included to the project  -->
     <path id="classpath">
         <fileset dir="${libs}">
             <include name="*.jar"/>
         </fileset>
     </path>
 
-    <target name="compile">
-        <mkdir dir="${build}"/>
-        <mkdir dir="${reportPath}"/>
 
-        <!--
+
+    <target name="compile" description="A compile task for all .java files">
+        <mkdir dir="${build}"/>
+
+        <!-- Just uncomment this block to run it on helios (and block the next one!)
+
         <javac fork="true" executable="/usr/jdk/jdk1.8.0/bin/javac" destdir="${build}"                   includeantruntime="false" srcdir="${src}"/>
+        <javac fork="true" target="1.8" destdir="${build}" includeantruntime="false" srcdir="${testPath}" classpathref="classpath"/>
         -->
+
+        <!-- Compile all project's files -->
         <javac fork="true" target="1.8" destdir="${build}" includeantruntime="false" srcdir="${src}"/>
+
+        <!-- Compile test's files-->
         <javac fork="true" target="1.8" destdir="${build}" includeantruntime="false" srcdir="${testPath}" classpathref="classpath"/>
     </target>
 
-    <target name="build" depends="compile">
+
+
+    <target name="build" depends="compile" description="The jar making task">
+        <!-- Creates the manifest file which has a version information -->
         <manifest file="${build}/MANIFEST.MF">
             <attribute name="Main-Class" value="${mainClass}"/>
             <attribute name="Specification-Version" value="${specificationVersion}"/>
             <attribute name="Implementation-Version" value="${implementationVersion}"/>
         </manifest>
 
+        <!-- Creates jar file which has all project's files except tests -->
         <jar destfile="${projectName}.jar" manifest="${build}/MANIFEST.MF">
             <fileset dir="${build}">
                 <include name="*.class"/>
@@ -33,18 +46,21 @@
         </jar>
     </target>
 
+
+
     <target name="clean">
         <delete dir="${build}"/>
         <delete file="${projectName}.jar"/>
     </target>
 
-    <target name="test" depends="build">
 
+
+    <target name="test" depends="build" description="Tests the project">
         <junit printsummary="yes" haltonfailure="no">
             <classpath refid="classpath"/>
             <classpath location="@{testPath}"/>
 
-            <batchtest fork="yes" todir="${reportPath}">
+            <batchtest fork="yes">
                 <fileset dir="${testPath}">
                     <include name="*Test*.java"/>
                 </fileset>
