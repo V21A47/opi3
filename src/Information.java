@@ -1,0 +1,4 @@
+interface Information {
+    void showInf();
+}
+

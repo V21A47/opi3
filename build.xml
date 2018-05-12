@@ -1,0 +1,35 @@
+<project name="${projectName}" default="build">
+
+    <property file="ant.properties"/>
+
+    <target name="compile">
+        <mkdir dir="${build}"/>
+        <javac destdir= "${build}" includeantruntime="false">
+                <src path="${src}" />
+        </javac>
+    </target>
+
+    <target name="build" depends="compile">
+        <manifest file="${build}/MANIFEST.MF">
+            <attribute name="Main-Class" value="${mainClass}"/>
+            <attribute name="Specification-Version" value="${specificationVersion}"/>
+            <attribute name="Implementation-Version" value="${implementationVersion}"/>
+        </manifest>
+
+        <jar destfile="${projectName}.jar" manifest="${build}/MANIFEST.MF">
+            <fileset dir="${build}">
+                <include name="*.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete file="${projectName}.jar"/>
+    </target>
+
+    <target name="test" depends="build">
+
+    </target>
+
+</project>
