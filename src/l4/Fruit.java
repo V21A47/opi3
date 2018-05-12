@@ -1,3 +1,5 @@
+package l4;
+
 public enum Fruit  {
     APPLE {
         public String lang() {

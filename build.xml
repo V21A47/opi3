@@ -2,15 +2,21 @@
 
     <property file="ant.properties"/>
 
-    <target name="version">
-        <echo message="Using Java version ${ant.java.version}."/>
-        <echo>Java/JVM version: ${ant.java.version}</echo>
-        <echo>Java/JVM detail version: ${java.version}</echo>
-    </target>
+    <path id="classpath">
+        <fileset dir="${libs}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
 
     <target name="compile">
         <mkdir dir="${build}"/>
-            <javac fork="true" executable="/usr/jdk/jdk1.8.0/bin/javac" destdir="${build}"                   includeantruntime="false" srcdir="${src}"/>
+        <mkdir dir="${reportPath}"/>
+
+        <!--
+        <javac fork="true" executable="/usr/jdk/jdk1.8.0/bin/javac" destdir="${build}"                   includeantruntime="false" srcdir="${src}"/>
+        -->
+        <javac fork="true" target="1.8" destdir="${build}" includeantruntime="false" srcdir="${src}"/>
+        <javac fork="true" target="1.8" destdir="${build}" includeantruntime="false" srcdir="${testPath}" classpathref="classpath"/>
     </target>
 
     <target name="build" depends="compile">
@@ -34,6 +40,16 @@
 
     <target name="test" depends="build">
 
+        <junit printsummary="yes" haltonfailure="no">
+            <classpath refid="classpath"/>
+            <classpath location="@{testPath}"/>
+
+            <batchtest fork="yes" todir="${reportPath}">
+                <fileset dir="${testPath}">
+                    <include name="*Test*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
     </target>
 
 </project>

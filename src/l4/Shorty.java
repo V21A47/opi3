@@ -1,3 +1,5 @@
+package l4;
+
 class Shorty extends Human {
     Shorty(String name, HumanState st, Position position) {
         super(name, st, position);

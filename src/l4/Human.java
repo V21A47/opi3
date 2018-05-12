@@ -1,3 +1,5 @@
+package l4;
+
 class Human implements Movable {
     private HumanState state;
     private String name;

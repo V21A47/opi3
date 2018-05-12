@@ -1,3 +1,5 @@
+package l4;
+
 public class Place {
     private String name;
     private Position currPos;

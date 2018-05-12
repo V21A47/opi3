@@ -1,3 +1,5 @@
+package l4;
+
 import java.util.Comparator;
 
 class DieselTruck extends Car implements Comparator<DieselTruck> {

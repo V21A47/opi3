@@ -1,3 +1,5 @@
+package l4;
+
 public class NoFreeSpaceExeption extends Exception {
     public NoFreeSpaceExeption() {
         super();

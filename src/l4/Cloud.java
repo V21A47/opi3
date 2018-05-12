@@ -1,3 +1,5 @@
+package l4;
+
 class Cloud implements Movable {
     private CloudState state;
     private Position currPos;

@@ -1,16 +1,18 @@
-abstract class Car implements Movable {
+package l4;
+
+public abstract class Car implements Movable {
     private Human carHolder;
     private Position currPos;
     private double volumeOfFuel;
     Cloud cl;
     private String number;
 
-    static class Number {
+    public static class Number {
         private static int first = 9;
         private static char second = 'A' - 1;
         private static int third = 11;
 
-        static String giveNumber() throws IllegalCarOperation {
+        public static String giveNumber() throws IllegalCarOperation {
 
             if (third == 99) throw new IllegalCarOperation("Машине не удалось присвоить новый номер," +
                     " так как все возможные номера уже задействованы!");
