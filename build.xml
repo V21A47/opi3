@@ -10,7 +10,7 @@
 
     <target name="compile">
         <mkdir dir="${build}"/>
-        <javac destdir= "${build}" includeAntRuntime="no" includeantruntime="true" deprecation="true" target="1.8" source="1.8">
+        <javac destdir= "${build}" includeAntRuntime="no" includeantruntime="true" deprecation="true" target="1.7" source="1.7">
                 <src path="${src}" />
         </javac>
     </target>
