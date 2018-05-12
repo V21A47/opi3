@@ -10,9 +10,7 @@
 
     <target name="compile">
         <mkdir dir="${build}"/>
-        <javac destdir= "${build}" includeAntRuntime="no" includeantruntime="true" deprecation="true" target="1.7" source="1.7">
-                <src path="${src}" />
-        </javac>
+            <javac fork="true" executable="/usr/jdk/jdk1.8.0/bin/javac" destdir="${build}"                   includeantruntime="false" srcdir="${src}"/>
     </target>
 
     <target name="build" depends="compile">
@@ -37,4 +35,5 @@
     <target name="test" depends="build">
 
     </target>
+
 </project>
