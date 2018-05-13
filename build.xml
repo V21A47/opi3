@@ -94,7 +94,6 @@
                         <arg value="HEAD~1"/>
                         <redirector output="${diff}"/>
                     </exec>
-
                     <exec dir="./${src}"  executable="git" errorproperty="resets_err" >
                         <arg value="reset"/>
                         <arg value="--hard"/>
