@@ -1,15 +1,17 @@
-package Test;
+package l4;
 
 import static org.junit.Assert.assertEquals;
-import l4.Car;
+import org.junit.Test;
 
 public class CarTest{
-
+    @Test
     public void giveNumberReturnsCarNumber(){
-        for(int i = 0; i < 10; i++){
-            System.out.println(i + ": " + Car.Number.giveNumber());
-        }
         // assert
-        //assertEquals("
+        String t1 = Car.Number.giveNumber();
+        String t2 = Car.Number.giveNumber();
+        String t3 = Car.Number.giveNumber();
+        assertEquals("10BK12 is not " + t1, "10BK12", t1);
+        assertEquals("11BL13 is not " + t2, "11BL13", t2);
+        assertEquals("12CM14 is not " + t3, "12CM14", t3);
     }
 }

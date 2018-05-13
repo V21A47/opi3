@@ -56,9 +56,27 @@
 
 
     <target name="test" depends="build" description="Tests the project">
+        <junit printsummary="on" haltonfailure="no" fork="true">
+
+            <classpath refid="classpath"/>
+
+            <classpath location="${projectName}.jar"/>
+
+            <formatter type="plain" usefile="false" />
+
+            <batchtest>
+                <fileset dir="${build}">
+                    <include name="**/*Test*.class" />
+                </fileset>
+            </batchtest>
+
+        </junit>
+        <!--
         <junit printsummary="yes" haltonfailure="no">
             <classpath refid="classpath"/>
             <classpath location="@{testPath}"/>
+
+        <path refid="classpath"/>
 
             <batchtest fork="yes">
                 <fileset dir="${testPath}">
@@ -66,6 +84,7 @@
                 </fileset>
             </batchtest>
         </junit>
+        -->
     </target>
 
 </project>

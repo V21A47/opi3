@@ -5,6 +5,9 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        for(int i = 0; i < 10; i++){
+            System.out.println(i + ": " + Car.Number.giveNumber());
+        }
         Place pl = new Place("Городская местность", new Position(100, 100, 100));
         try {
             pl.addPremise(Terrain.HOUSE, 0, new Position(5, 0, 0));
