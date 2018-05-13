@@ -1,11 +1,11 @@
 package l4;
 
 public abstract class Car implements Movable {
-    private Human carHolder;
-    private Position currPos;
-    private double volumeOfFuel;
-    Cloud cl;
-    private String number;
+    private Human carHolder = null;
+    private Position currPos = null;
+    private double volumeOfFuel = 0;
+    Cloud cl = null;
+    private String number = null;
 
     public static class Number {
         private static int first = 9;
@@ -23,7 +23,7 @@ public abstract class Car implements Movable {
         }
     }
 
-    Car(Human owner, Position position, double volumeOfFuel) {
+    public Car(Human owner, Position position, double volumeOfFuel) {
         this.carHolder = owner;
         this.currPos = position;
         this.volumeOfFuel = volumeOfFuel;
@@ -56,6 +56,10 @@ public abstract class Car implements Movable {
         } else {
             System.out.println("Топлива не хватит!");
         }
+    }
+
+    public Position getPosition(){
+        return currPos;
     }
 
     private void riseDust() {
