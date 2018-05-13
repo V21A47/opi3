@@ -2,6 +2,7 @@
 
     <property file="ant.properties"/>
 
+    <taskdef name="junit" classname="${antJUnitPath}"/>
 
     <!--  Jar files to be included to the project  -->
     <path id="classpath">
