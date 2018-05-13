@@ -81,4 +81,37 @@
         </junit>
     </target>
 
+    <target name="history">
+        <trycatch>
+            <try>
+                <antcall target="compile"/>
+            </try>
+            <catch>
+                <touch file="${diff}"></touch>
+                <touch file="${err}"></touch>
+                    <exec dir="./${src}" executable="git" append="true" errorproperty="resets_err">
+                        <arg value="diff"/>
+                        <arg value="HEAD~1"/>
+                        <redirector output="${diff}"/>
+                    </exec>
+
+                    <exec dir="./${src}"  executable="git" errorproperty="resets_err" >
+                        <arg value="reset"/>
+                        <arg value="--hard"/>
+                        <arg value="HEAD^"/>
+                    </exec>
+                <if>
+                    <not>
+                        <isset  property="rresets_err" />
+                    </not>
+                    <then>
+                        <antcall target="recur"/>
+                    </then>
+                </if>
+            </catch>
+        </trycatch>
+    </target>
+
+    <target name = "recur" depends="history" />
+
 </project>

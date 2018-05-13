@@ -9,19 +9,18 @@ class Shorty extends Human {
         qwe.showInf();
     }
 
-    public void feed(Shorty whom) {
-        System.out.println(this.toString() + " покормил " + whom.getName());
+    public String feed(Shorty whom) {
+        return(this.toString() + " покормил " + whom.getName());
     }
 
-    public void hide() {
+    public String hide() {
         switch (this.getState()) {
             case FEAR:
-                System.out.println(this.getName() + " спрятался в доме и выглядывает в окно");
-                break;
+                return(this.getName() + " спрятался в доме и выглядывает в окно");
             case NOFEARLESS:
-                System.out.println(this.getName() + " остался на дороге");
-                break;
+                return(this.getName() + " остался на дороге");
         }
+        return "";
     }
 
     public String toString() {
