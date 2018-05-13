@@ -12,6 +12,7 @@ class Human implements Movable {
     }
 
     public void moveTo(Position position) {
+        currPos = position;
         System.out.println(this.toString());
     }
 
@@ -38,7 +39,7 @@ class Human implements Movable {
     public boolean equals(Object b) {
         if (!(b instanceof Human)) return false;
         Human bc = (Human) b;
-        return super.equals(b) && this.name.equals(bc.name) && this.currPos.equals(bc.currPos) ;
+        return this.name.equals(bc.name) && this.currPos.equals(bc.currPos) && this.state==bc.getState();
     }
 
     public int hashCode() {

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class CarTest{
-
     @Test
     public void moveToMovesToThePosition(){
         Car car1 = new Car(new Human("JORA", HumanState.NORMAL, new Position(0, 0, 0)), new Position(0, 0, 0), 100) {};
@@ -19,7 +18,7 @@ public class CarTest{
         assertEquals(new Position(0, 0, 0), car2.getPosition());
     }
 
-    @Test
+    @Test(expected = IllegalCarOperation.class)
     public void giveNumberReturnsCarNumber(){
         String t1 = Car.Number.giveNumber();
         String t2 = Car.Number.giveNumber();
@@ -28,8 +27,9 @@ public class CarTest{
         assertEquals("14EO16 is not " + t2, "14EO16", t2);
         assertEquals("15FP17 is not " + t3, "15FP17", t3);
 
+        // Exception is expected
         for(int i = 0; i < 100; i++){
-            System.out.print("   " + Car.Number.giveNumber());
+            Car.Number.giveNumber();
         }
     }
 

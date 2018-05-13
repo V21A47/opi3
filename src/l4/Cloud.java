@@ -14,6 +14,10 @@ class Cloud implements Movable {
         WATER
     }
 
+    public Position getPosition(){
+        return currPos;
+    }
+
     public void moveTo(Position position) {
         System.out.println("Облако поплыло..");
         this.currPos = position;
@@ -23,10 +27,14 @@ class Cloud implements Movable {
         if (currPos.isSmthSeemed(new Position(0, 0, 0))) hum.getState().reaction();
     }
 
+    public CloudState getState(){
+        return state;
+    }
+
     public boolean equals(Object b) {
         if (!(b instanceof Cloud)) return false;
         Cloud bc = (Cloud) b;
-        return super.equals(b) && currPos.equals(bc.currPos);
+        return this.state.equals(bc.getState()) && this.currPos.equals(bc.getPosition());
     }
 
     public int hashCode() {

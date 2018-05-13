@@ -2,8 +2,6 @@
 
     <property file="ant.properties"/>
 
-    <taskdef name="junit" classname="${antJUnitPath}"/>
-
     <!--  Jar files to be included to the project  -->
     <path id="classpath">
         <fileset dir="${libs}">
@@ -11,7 +9,9 @@
         </fileset>
     </path>
 
-
+    <taskdef name="junit" classname="${antJUnitPath}">
+        <classpath refid="classpath"/>
+    </taskdef>
 
     <target name="compile" description="A compile task for all .java files">
         <mkdir dir="${build}"/>

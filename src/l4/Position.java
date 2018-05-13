@@ -16,11 +16,11 @@ public class Position {
     }
 
     public boolean isSmthNear(Position pos) {
-        return Math.abs(this.z - pos.z) < 3 & Math.abs(this.z - pos.z) < 3 & Math.abs(this.z - pos.z) < 3;
+        return Math.abs(this.z - pos.z) < 3 & Math.abs(this.y - pos.y) < 3 & Math.abs(this.x - pos.x) < 3;
     }
 
     public boolean isSmthSeemed(Position pos) {
-        return Math.abs(this.z - pos.z) < 500 && Math.abs(this.z - pos.z) < 500 && Math.abs(this.z - pos.z) < 500;
+        return Math.abs(this.z - pos.z) < 500 && Math.abs(this.x - pos.x) < 500 && Math.abs(this.y - pos.y) < 500;
     }
 
     public void getPos() {
