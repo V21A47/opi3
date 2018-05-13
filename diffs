@@ -1,0 +1,225 @@
+diff --git a/ant.properties b/ant.properties
+index 2b668be..a79b260 100644
+--- a/ant.properties
++++ b/ant.properties
+@@ -9,3 +9,5 @@ mainClass=l4.Main
+ libs=lib
+ testPath=src/Test
+ antJUnitPath=org.apache.tools.ant.taskdefs.optional.junit.JUnitTask
++diff=diffs
++err=err
+diff --git a/build.xml b/build.xml
+index 0295182..b07c108 100644
+--- a/build.xml
++++ b/build.xml
+@@ -9,6 +9,12 @@
+         </fileset>
+     </path>
+ 
++    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
++        <classpath>
++            <pathelement location="./lib/ant-contrib-1.0b3.jar"/>
++        </classpath>
++    </taskdef>
++
+     <taskdef name="junit" classname="${antJUnitPath}">
+         <classpath refid="classpath"/>
+     </taskdef>
+@@ -75,4 +81,37 @@
+         </junit>
+     </target>
+ 
++    <target name="history">
++        <trycatch>
++            <try>
++                <antcall target="compile"/>
++            </try>
++            <catch>
++                <touch file="${diff}"></touch>
++                <touch file="${err}"></touch>
++                    <exec dir="./${src}" executable="git" append="true" errorproperty="resets_err">
++                        <arg value="diff"/>
++                        <arg value="HEAD~1"/>
++                        <redirector output="${diff}"/>
++                    </exec>
++
++                    <exec dir="./${src}"  executable="git" errorproperty="resets_err" >
++                        <arg value="reset"/>
++                        <arg value="--hard"/>
++                        <arg value="HEAD^"/>
++                    </exec>
++                <if>
++                    <not>
++                        <isset  property="rresets_err" />
++                    </not>
++                    <then>
++                        <antcall target="recur"/>
++                    </then>
++                </if>
++            </catch>
++        </trycatch>
++    </target>
++
++    <target name = "recur" depends="history" />
++
+ </project>
+diff --git a/src/Test/DieselTruckTest.java b/src/Test/DieselTruckTest.java
+new file mode 100644
+index 0000000..f53c1ab
+--- /dev/null
++++ b/src/Test/DieselTruckTest.java
+@@ -0,0 +1,22 @@
++package l4;
++
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertTrue;
++import static org.junit.Assert.assertFalse;
++
++import org.junit.Test;
++
++public class DieselTruckTest{
++
++    @Test
++    public void putFruit(){
++        DieselTruck dt = new DieselTruck(new Shorty("Abvgdezh", HumanState.NORMAL, new Position(0, 0, 0)), new Position(0, 0, 0), 0.0D);
++        String s1 = "Большое краснобокое яблоко теперь в кузове!";
++        String s2 = "Спелая груша теперь в кузове!";
++        String s3 = "Полдесятка слив теперь в кузове!";
++
++        assertEquals(s1, dt.putFruit(Fruit.APPLE));
++        assertEquals(s2, dt.putFruit(Fruit.PEAR));
++        assertEquals(s3, dt.putFruit(Fruit.PLUMS));
++    }
++}
+diff --git a/src/Test/PositionTest.java b/src/Test/PositionTest.java
+index 3c8f930..ed83f99 100644
+--- a/src/Test/PositionTest.java
++++ b/src/Test/PositionTest.java
+@@ -1,4 +1,4 @@
+- package l4;
++package l4;
+ 
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
+diff --git a/src/Test/ShortyTest.java b/src/Test/ShortyTest.java
+new file mode 100644
+index 0000000..7060d20
+--- /dev/null
++++ b/src/Test/ShortyTest.java
+@@ -0,0 +1,34 @@
++package l4;
++
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertTrue;
++import static org.junit.Assert.assertFalse;
++
++import org.junit.Test;
++
++public class ShortyTest{
++
++    @Test
++    public void feedWorks(){
++        Shorty sh1 = new Shorty("Shorty_1", HumanState.NORMAL, new Position(0, 0, 0));
++        Shorty sh2 = new Shorty("Shorty_2", HumanState.NORMAL, new Position(0, 0, 0));
++
++        assertEquals("Коротышка Shorty_1 покормил Shorty_2", sh1.feed(sh2));
++        assertEquals("Коротышка Shorty_2 покормил Shorty_1", sh2.feed(sh1));
++    }
++
++    @Test
++    public void hideWorks(){
++        Shorty sh1 = new Shorty("Shorty_1", HumanState.FEAR, new Position(0, 0, 0));
++
++        assertEquals("Shorty_1 спрятался в доме и выглядывает в окно", sh1.hide());
++
++        sh1 = new Shorty("Shorty_1", HumanState.NOFEARLESS, new Position(0, 0, 0));
++
++        assertEquals("Shorty_1 остался на дороге", sh1.hide());
++
++        sh1 = new Shorty("Shorty_1", HumanState.NORMAL, new Position(0, 0, 0));
++
++        assertEquals("", sh1.hide());
++    }
++}
+diff --git a/src/l4/DieselTruck.java b/src/l4/DieselTruck.java
+index c12bf47..a38f3ed 100644
+--- a/src/l4/DieselTruck.java
++++ b/src/l4/DieselTruck.java
+@@ -2,21 +2,17 @@ package l4;
+ 
+ import java.util.Comparator;
+ 
+-class DieselTruck extends Car implements Comparator<DieselTruck> {
++class DieselTruck extends Car {
+ 
+-    DieselTruck(Shorty own, Position position, double volumeOfFuel) {
++    public DieselTruck(Shorty own, Position position, double volumeOfFuel) {
+         super(own, position, volumeOfFuel);
+     }
+ 
+-    String putFruit(Fruit fr) {
++    public String putFruit(Fruit fr) {
+         return fr.lang() + " теперь в кузове!";
+     }
+ 
+     public String toString() {
+         return "Грузовая машина " + super.getHolder();
+     }
+-
+-    public int compare(DieselTruck d1, DieselTruck d2) {
+-        return d1.getNumber().compareTo(d2.getNumber());
+-    }
+ }
+diff --git a/src/l4/Main.java b/src/l4/Main.java
+index 751d67a..e84a241 100644
+--- a/src/l4/Main.java
++++ b/src/l4/Main.java
+@@ -5,9 +5,6 @@ import java.io.IOException;
+ 
+ public class Main {
+     public static void main(String[] args) {
+-        for(int i = 0; i < 10; i++){
+-            System.out.println(i + ": " + Car.Number.giveNumber());
+-        }
+         Place pl = new Place("Городская местность", new Position(100, 100, 100));
+         try {
+             pl.addPremise(Terrain.HOUSE, 0, new Position(5, 0, 0));
+@@ -16,6 +13,8 @@ public class Main {
+         } catch (NoFreeSpaceExeption e) {
+             System.out.println(e.getMessage());
+         }
++
++        фывапро
+         Shorty[] group = new Shorty[3];
+         group[0] = new Shorty("Первый", HumanState.FEAR, new Position(0, 0, 0));
+         group[1] = new Shorty("Второй", HumanState.FEAR, new Position(1, 0, 0));
+diff --git a/src/l4/Shorty.java b/src/l4/Shorty.java
+index f6828f3..6370166 100644
+--- a/src/l4/Shorty.java
++++ b/src/l4/Shorty.java
+@@ -9,19 +9,18 @@ class Shorty extends Human {
+         qwe.showInf();
+     }
+ 
+-    public void feed(Shorty whom) {
+-        System.out.println(this.toString() + " покормил " + whom.getName());
++    public String feed(Shorty whom) {
++        return(this.toString() + " покормил " + whom.getName());
+     }
+ 
+-    public void hide() {
++    public String hide() {
+         switch (this.getState()) {
+             case FEAR:
+-                System.out.println(this.getName() + " спрятался в доме и выглядывает в окно");
+-                break;
++                return(this.getName() + " спрятался в доме и выглядывает в окно");
+             case NOFEARLESS:
+-                System.out.println(this.getName() + " остался на дороге");
+-                break;
++                return(this.getName() + " остался на дороге");
+         }
++        return "";
+     }
+ 
+     public String toString() {
