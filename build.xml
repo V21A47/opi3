@@ -19,6 +19,8 @@
         <classpath refid="classpath"/>
     </taskdef>
 
+
+
     <target name="compile" description="A compile task for all .java files">
         <mkdir dir="${build}"/>
 
@@ -30,10 +32,10 @@
         -->
 
         <!-- Compile all project's files -->
-        <javac fork="true" target="1.8" destdir="${build}" includeantruntime="false" srcdir="${src}"/>
-
+        <javac fork="true" target="1.6" source="1.6" destdir="${build}" includeantruntime="false" srcdir="${src}"/>
         <!-- Compile test's files-->
-        <javac fork="true" target="1.8" destdir="${build}" includeantruntime="false" srcdir="${testPath}" classpathref="classpath"/>
+        <javac fork="true" target="1.6" source="1.6" destdir="${build}" includeantruntime="false" srcdir="${testPath}" classpathref="classpath"/>
+
     </target>
 
 
@@ -50,6 +52,7 @@
         <jar destfile="${projectName}.jar" manifest="${build}/MANIFEST.MF">
             <fileset dir="${build}">
                 <include name="**/*.class"/>
+                <include name="**/*.properties"/>
             </fileset>
         </jar>
     </target>
@@ -59,6 +62,8 @@
     <target name="clean">
         <delete dir="${build}"/>
         <delete file="${projectName}.jar"/>
+        <delete file="${diff}"/>
+        <delete file="${err}"/>
     </target>
 
 
@@ -81,6 +86,8 @@
         </junit>
     </target>
 
+
+
     <target name="history">
         <trycatch>
             <try>
@@ -101,7 +108,7 @@
                     </exec>
                 <if>
                     <not>
-                        <isset  property="rresets_err" />
+                        <isset  property="resets_err" />
                     </not>
                     <then>
                         <antcall target="recur"/>
@@ -110,7 +117,12 @@
             </catch>
         </trycatch>
     </target>
-
     <target name = "recur" depends="history" />
+
+
+
+    <target name="native2ascii">
+        <native2ascii src="${localization}" dest="${build}/l4" ext=".properties"/>
+    </target>
 
 </project>

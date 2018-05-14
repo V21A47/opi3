@@ -34,7 +34,7 @@ public abstract class Car implements Movable {
         return number;
     }
 
-    public void moveTo(Position position) {
+    public void moveTo(final Position position) {
         System.out.println("Едем, едем ");
         riseDust();
 

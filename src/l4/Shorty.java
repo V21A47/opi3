@@ -4,7 +4,11 @@ class Shorty extends Human {
     Shorty(String name, HumanState st, Position position) {
         super(name, st, position);
 
-        Information qwe = () -> System.out.println(" Новый коротышка " + Shorty.super.getName() + ". " + Shorty.super.getPosition().toString());
+        Information qwe = new Information(){
+            public void showInf(){
+                System.out.println(" Новый коротышка " + Shorty.super.getName() + ". " + Shorty.super.getPosition().toString());
+            }
+        };
 
         qwe.showInf();
     }

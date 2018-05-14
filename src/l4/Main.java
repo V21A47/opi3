@@ -1,11 +1,15 @@
 package l4;
 
-import java.io.Console;
-import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Main {
     public static void main(String[] args) {
-        Place pl = new Place("Городская местность", new Position(100, 100, 100));
+
+        Locale loc = new Locale("ru", "RU");
+        ResourceBundle names = ResourceBundle.getBundle("NamesBundle", loc);
+
+        Place pl = new Place(names.getString("p1"), new Position(100, 100, 100));
         try {
             pl.addPremise(Terrain.HOUSE, 0, new Position(5, 0, 0));
             pl.addPremise(Terrain.HOUSE, 1, new Position(8, 0, 0));
@@ -14,15 +18,15 @@ public class Main {
             System.out.println(e.getMessage());
         }
         Shorty[] group = new Shorty[3];
-        group[0] = new Shorty("Первый", HumanState.FEAR, new Position(0, 0, 0));
-        group[1] = new Shorty("Второй", HumanState.FEAR, new Position(1, 0, 0));
-        group[2] = new Shorty("Третий", HumanState.FEAR, new Position(0, 1, 0));
+        group[0] = new Shorty(names.getString("n1"), HumanState.FEAR, new Position(0, 0, 0));
+        group[1] = new Shorty(names.getString("n2"), HumanState.FEAR, new Position(1, 0, 0));
+        group[2] = new Shorty(names.getString("n3"), HumanState.FEAR, new Position(0, 1, 0));
 
-        Shorty znaika = new Shorty("Знайка", HumanState.NOFEARLESS, new Position(1, 1, 0));
+        Shorty znaika = new Shorty(names.getString("n4"), HumanState.NOFEARLESS, new Position(1, 1, 0));
 
-        Shorty bublik = new Shorty("Бублик", HumanState.NORMAL, new Position(1500, 1500, 0));
-        Shorty shurupchik = new Shorty("Шурупчик", HumanState.NORMAL, new Position(1502, 1500, 0));
-        Shorty gvozdik = new Shorty("Гвоздик", HumanState.NORMAL, new Position(1504, 1500, 0));
+        Shorty bublik = new Shorty(names.getString("n5"), HumanState.NORMAL, new Position(1500, 1500, 0));
+        Shorty shurupchik = new Shorty(names.getString("n6"), HumanState.NORMAL, new Position(1502, 1500, 0));
+        Shorty gvozdik = new Shorty(names.getString("n7"), HumanState.NORMAL, new Position(1504, 1500, 0));
 
         DieselTruck c1 = new DieselTruck(bublik, new Position(1500, 1500, 0), 255);
         DieselTruck c2 = new DieselTruck(shurupchik, new Position(1502, 1500, 0), 235);
