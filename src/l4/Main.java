@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         Locale loc = new Locale("en", "US");
-        ResourceBundle names = ResourceBundle.getBundle("NamesBundle", loc);
+        ResourceBundle names = ResourceBundle.getBundle("NamesBundle");
 
         Place pl = new Place(names.getString("p1"), new Position(100, 100, 100));
         try {
@@ -17,6 +17,7 @@ public class Main {
         } catch (NoFreeSpaceExeption e) {
             System.out.println(e.getMessage());
         }
+
         Shorty[] group = new Shorty[3];
         group[0] = new Shorty(names.getString("n1"), HumanState.FEAR, new Position(0, 0, 0));
         group[1] = new Shorty(names.getString("n2"), HumanState.FEAR, new Position(1, 0, 0));
