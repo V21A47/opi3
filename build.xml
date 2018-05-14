@@ -23,14 +23,6 @@
 
     <target name="compile" description="A compile task for all .java files">
         <mkdir dir="${build}"/>
-
-        <!-- Just uncomment this block to run it on helios (and block the next one!)
-
-        <javac fork="true" executable="/usr/jdk/jdk1.8.0/bin/javac" destdir="${build}" includeantruntime="false" srcdir="${src}"/>
-
-        <javac fork="true" executable="/usr/jdk/jdk1.8.0/bin/javac" destdir="${build}" includeantruntime="false" srcdir="${testPath}" classpathref="classpath"/>
-        -->
-
         <!-- Compile all project's files -->
         <javac fork="true" target="1.6" source="1.6" destdir="${build}" includeantruntime="false" srcdir="${src}"/>
         <!-- Compile test's files-->
