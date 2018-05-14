@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 public class Main {
     public static void main(String[] args) {
 
-        Locale loc = new Locale("ru", "RU");
+        Locale loc = new Locale("en", "US");
         ResourceBundle names = ResourceBundle.getBundle("NamesBundle", loc);
 
         Place pl = new Place(names.getString("p1"), new Position(100, 100, 100));

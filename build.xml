@@ -9,11 +9,15 @@
         </fileset>
     </path>
 
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+
+
+    <taskdef resource="${antcontrPath}">
         <classpath>
-            <pathelement location="./lib/ant-contrib-1.0b3.jar"/>
+            <pathelement location="${antcontrLocation}"/>
         </classpath>
     </taskdef>
+
+
 
     <taskdef name="junit" classname="${antJUnitPath}">
         <classpath refid="classpath"/>
@@ -27,7 +31,6 @@
         <javac fork="true" target="1.6" source="1.6" destdir="${build}" includeantruntime="false" srcdir="${src}"/>
         <!-- Compile test's files-->
         <javac fork="true" target="1.6" source="1.6" destdir="${build}" includeantruntime="false" srcdir="${testPath}" classpathref="classpath"/>
-
     </target>
 
 
