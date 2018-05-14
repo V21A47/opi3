@@ -7,7 +7,7 @@ public class Place {
 
     Place(String name) {
         this.name = name;
-        currPos = null;
+        currPos = new Position(0, 0, 0);
         System.out.println("Место - " + name + " успешно создано");
     }
 
@@ -22,17 +22,37 @@ public class Place {
     }
 
     public void addPremise(Terrain type, int ind, Position pos) throws NoFreeSpaceExeption {
-        if (pos.isSmthNear(this.currPos)) throw new NoFreeSpaceExeption("Нет свободного места!");
+        if (pos.isSmthNear(this.currPos) || ind < 0  || ind > 101) throw new NoFreeSpaceExeption("Нет свободного места!");
         else {
             this.objects[ind] = type;
             System.out.println("Строение " + type + " построено");
         }
     }
 
+    public Position getPosition(){
+        return currPos;
+    }
+
+    public Terrain getObject(int index){
+        if(index >= 0 && index <= 101){
+            return objects[index];
+        } else {
+            return null;
+        }
+    }
+
     public boolean equals(Object pl) {
-        if (!(pl instanceof Human)) return false;
+        if (!(pl instanceof Place)) return false;
         Place place = (Place) pl;
-        return super.equals(pl) && name.equals(place.name);
+
+        for(int i = 0; i < 101; i++){
+            if(objects[i] != place.getObject(i)){
+                System.err.println(i);
+                return false;
+            }
+        }
+
+        return name.equals(place.name) && currPos.equals(place.getPosition());
     }
 
     public int hashCode() {
